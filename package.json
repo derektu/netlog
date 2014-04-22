@@ -1,0 +1,27 @@
+{
+  "name": "netlog",
+  "version": "0.1.0",
+  "description": "a network-based log server",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "body-parser": "~1.0.2",
+    "express": "~4.0.0",
+    "redis": "~0.10.1",
+    "socket.io": "~0.9.16",
+    "underscore.string": "~2.3.3",
+    "winston": "~0.7.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "network",
+    "log"
+  ],
+  "author": "derektu123@gmail.com",
+  "license": "MIT"
+}
