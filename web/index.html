@@ -39,7 +39,7 @@
         padding: 2px;
         overflow-x:hidden;
         overflow-y:auto;
-        background-color: #eee;
+        background-color: #333;
         font-family: monospace;
         font-size: 10pt;
         width:100%;
@@ -55,6 +55,32 @@
         font-size: 10pt;
         width:100%;
         height:80px;
+    }
+    .logline {
+        padding: 0;
+        margin: 0;
+        line-height: 120%;
+    }
+    .logmsg {
+        color: #aec7e8;
+    }
+    .level0 {
+        color: #954121;
+    }
+    .level1 {
+        color: #C09853;
+    }
+    .level2 {
+        color: #0b97c4;
+    }
+    .level3 {
+        color: #ffff00;
+    }
+    .level4 {
+        color: #FF0000;
+    }
+    .level5 {
+        color: #C000C0;
     }
 
     </style>
@@ -86,20 +112,33 @@
                         </div>
 
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-left:4px;margin-right:4px;">
-                                <span class="selection" data-cmd="0">All levels</span> <span class="caret"></span>
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="margin-left:4px;margin-right:4px;">
+                                <span id="loglevel_value" class="selection" data-cmd="0">Level(ALL)</span> <span class="caret"></span>
                             </button>
-                            <ul id="level_dropdown" class="dropdown-menu" role="menu">
-                                <li><a href="#" data-cmd="0">All levels</a></li>
-                                <li><a href="#" data-cmd="1">Level(Debug=1)</a></li>
-                                <li><a href="#" data-cmd="2">Level(Info=2)</a></li>
-                                <li><a href="#" data-cmd="3">Level(Warn=3)</a></li>
-                                <li><a href="#" data-cmd="4">Level(Error=4)</a></li>
-                                <li><a href="#" data-cmd="5">Level(Fatal=5)</a></li>
+                            <ul id="loglevel_dropdown" class="dropdown-menu" role="menu">
+                                <li><a href="#" data-cmd="0">Level(ALL)</a></li>
+                                <li><a href="#" data-cmd="1">Level(D=1)</a></li>
+                                <li><a href="#" data-cmd="2">Level(I=2)</a></li>
+                                <li><a href="#" data-cmd="3">Level(W=3)</a></li>
+                                <li><a href="#" data-cmd="4">Level(E=4)</a></li>
+                                <li><a href="#" data-cmd="5">Level(F=5)</a></li>
                             </ul>
                         </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="margin-left:4px;margin-right:4px;">
+                                <span id="logcount_value" class="selection" data-cmd="500"> 500</span> <span class="caret"></span>
+                            </button>
+                            <ul id="logcount_dropdown" class="dropdown-menu" role="menu">
+                                <li><a href="#" data-cmd="0">   0</a></li>
+                                <li><a href="#" data-cmd="100"> 100</a></li>
+                                <li><a href="#" data-cmd="500"> 500</a></li>
+                                <li><a href="#" data-cmd="1000">1000</a></li>
+                                <li><a href="#" data-cmd="5000">5000</a></li>
+                            </ul>
+                        </div>
+
                     </div>
-                    <input type="text" class="form-control" style="margin-top:4px;margin-bottom:4px;">
+                    <input id="text_filter" type="text" class="form-control" style="margin-top:4px;margin-bottom:4px;">
                     <span class="input-group-btn">
                         <button id="btn_reflog" class="btn btn-primary" type="button" style="margin-left:4px;margin-right:4px;">Go !</button>
                         <button id="btn_clearlogwindow" type="button" class="btn btn-danger" style="margin-left:4px;margin-right:4px;"><span class="glyphicon glyphicon-remove"></span></button>
@@ -110,6 +149,13 @@
     </div>
     <div id="content">
       <div id="log">
+<!--
+        <p class="logline"><span class="level0">[debug] </span><span class="logmsg">a very very very long message</span></p>
+        <p class="logline"><span class="level1">[info ] </span><span class="logmsg"> very very very long message,</span></p>
+        <p class="logline"><span class="level2">[warn ] </span><span class="logmsg">a very very very long message</span></p>
+        <p class="logline"><span class="level3">[error] </span><span class="logmsg">a very very very long message</span></p>
+        <p class="logline"><span class="level4">[fatal] </span><span class="logmsg">a very very very long message</span></p>
+-->
       </div>
     </div>
     <div id="footer">
@@ -120,6 +166,7 @@
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="socket.io/socket.io.js"></script>
     <script type="text/javascript" src="js/logger.js"></script>
+    <script type="text/javascript" src="js/logwindow.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>

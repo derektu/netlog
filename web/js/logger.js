@@ -1,7 +1,7 @@
 /**
  * Created by Derek on 2014/4/4.
  */
-function Logger($log, addtime) {
+function Logger($log) {
     return {
         getTime : function() {
             var now = new Date();
@@ -23,10 +23,7 @@ function Logger($log, addtime) {
         },
 
         log : function(msg){
-            if (addtime)
-                $log.prepend('[' + this.getTime() + '] ' + msg + "<br/>");
-            else
-                $log.prepend(msg + "<br/>");
+            $log.prepend('[' + this.getTime() + '] ' + msg + "<br/>");
         },
 
         clear : function() {

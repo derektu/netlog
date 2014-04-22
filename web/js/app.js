@@ -2,16 +2,26 @@
  * Created by Derek on 2014/4/4.
  */
 var app = (function($){
-    var logger = new Logger($('#debuglog'), true);
-    var logwindow = new Logger($('#log'), false);
+    var logger = new Logger($('#debuglog'));
+    var logwindow = new LogWindow($, $('#log'));
     var socket = null;
     var refAppID = '';
     var refLogID = '';
 
+    var loglevels = [
+        '[verbo] ',
+        '[debug] ',
+        '[info ] ',
+        '[warn ] ',
+        '[error] ',
+        '[fatal] '
+    ];
+
     start = function() {
         logger.log('app is init');
 
-        initLevelDropdown();
+        initStdDropdown("#loglevel_dropdown li a");
+        initStdDropdown("#logcount_dropdown li a");
 
         initAppIDAndLogID();
 
@@ -77,6 +87,9 @@ var app = (function($){
     function refLog() {
         var appID = $('#appid_value').data("cmd") || '';
         var logID = $('#logid_value').data("cmd") || '';
+        var loglevel = $('#loglevel_value').data("cmd") || 0;
+        var filterText = $('#text_filter').val() || '';
+        var count = $('#logcount_value').data("cmd") || 500;
 
         if (appID == "" || logID == "")
             return;
@@ -86,13 +99,11 @@ var app = (function($){
 
         logwindow.clear();
 
-        // send ref packet (appID, logID, count)
-        // 目前count先寫死, 以後再提供UI來調整.
-        //  - TODO: 是否pass level ?
+        // send ref packet (appID, logID, count, level, filter)
         //
-        socket.emit('ref', { appID: refAppID, logID: refLogID, count: 100});
+        socket.emit('ref', { appID: refAppID, logID: refLogID, count: count, level: loglevel, filter: filterText});
 
-        logger.log('add ref: appID=' + refAppID + ' logID=' + refLogID);
+        logger.log('add ref: appID=' + refAppID + ' logID=' + refLogID + ' level=' + loglevel + ' count=' + count + ' filter=' + filterText);
     }
 
     function initDropdown(idList, $value, $dropdown, onValueChange) {
@@ -160,12 +171,11 @@ var app = (function($){
         initDropdown(logIDList, $('#logid_value'), $('#logid_dropdown'), null);
     }
 
-    function initLevelDropdown() {
-        $("#level-dropdown li a").click(function(){
+    function initStdDropdown(selector) {
+        $(selector).click(function(){
             var selection = $(this).parents(".btn-group").find('.selection');
             selection.text($(this).text());
             selection.data("cmd", $(this).data("cmd"));
-            logger.log('set selection cmd:' + selection.data("cmd"));
         });
     }
 
@@ -179,7 +189,7 @@ var app = (function($){
         socket.on('logReady', function(logs) {
             var i = 0; count = logs.length;
             for ( ; i < count; i++) {
-                logwindow.log(JSON.stringify(logs[i]));
+                logwindow.log(logs[i].level, loglevels[logs[i].level], logs[i].msg);
             }
         });
 
